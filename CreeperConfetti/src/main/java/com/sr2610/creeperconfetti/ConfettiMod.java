@@ -19,7 +19,7 @@ public class ConfettiMod {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-
+		proxy.init(event);
 	}
 
 }
