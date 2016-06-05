@@ -46,11 +46,10 @@ public class ConfettiHandler {
 						SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
 						(1.0F + (creeper.worldObj.rand.nextFloat() - creeper.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 				if (creeper.worldObj.isRemote) {
-					Random rand = new Random();
-						Minecraft.getMinecraft().effectRenderer.addEffect(
-								new ParticleFirework.Starter(creeper.worldObj, creeper.posX, creeper.posY + creeper.getEyeHeight(),
-										creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
-					
+
+					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.worldObj,
+							creeper.posX, creeper.posY, creeper.posZ, 0, 0, 0,
+							Minecraft.getMinecraft().effectRenderer, generateTag()));
 
 				}
 				creeper.setDead();
@@ -68,9 +67,15 @@ public class ConfettiHandler {
 
 		NBTTagList explosionsList = new NBTTagList();
 		List<Integer> list = Lists.<Integer> newArrayList();
+		
+		Random rand = new Random();
+
 		list.add(ItemDye.DYE_COLORS[1]);
 		list.add(ItemDye.DYE_COLORS[11]);
 		list.add(ItemDye.DYE_COLORS[4]);
+		for (int i = 0; i < rand.nextInt(3)+3; i++) 
+			list.add(ItemDye.DYE_COLORS[rand.nextInt(15)]);
+
 
 		int[] colours = new int[list.size()];
 
@@ -80,8 +85,6 @@ public class ConfettiHandler {
 		fireworkTag.setIntArray("Colors", colours);
 		fireworkTag.setBoolean("Flicker", true);
 		fireworkTag.setByte("Type", (byte) 4);
-	//	fireworkTag.setTag("Explosion", fireworkTagExplosion);
-
 		nbttaglist.appendTag(fireworkTag);
 
 		fireworkItemTag.setTag("Explosions", nbttaglist);
