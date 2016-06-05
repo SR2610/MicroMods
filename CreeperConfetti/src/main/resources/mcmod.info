@@ -1,12 +1,14 @@
 [
 {
-  "description": "Example placeholder mod.",
+  "modid": "creeperconfetti",
+  "name": "Creeper Confetti",
+  "description": "Mod that replaces the Creeper explosion with Confetti",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://sr2610.com/modding",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["SR2610"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
