@@ -17,6 +17,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ConfettiHandler {
 
@@ -40,13 +42,17 @@ public class ConfettiHandler {
 						SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
 						(1.0F + (creeper.worldObj.rand.nextFloat() - creeper.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 				if (creeper.worldObj.isRemote)
-					Minecraft.getMinecraft().effectRenderer
-							.addEffect(new ParticleFirework.Starter(creeper.worldObj, creeper.posX, creeper.posY,
-									creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
+					spawnParticles(creeper);
 				creeper.setDead();
 			}
 
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void spawnParticles(EntityCreeper creeper) {
+		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.worldObj, creeper.posX,
+				creeper.posY, creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
 	}
 
 	private NBTTagCompound generateTag() {
