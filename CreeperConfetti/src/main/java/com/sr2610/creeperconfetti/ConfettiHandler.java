@@ -39,7 +39,7 @@ public class ConfettiHandler {
 			int fuseTime = ((Integer) ReflectionHelper.getPrivateValue(EntityCreeper.class, creeper, FUSE_TIME))
 					.intValue();
 
-			if (ignitedTime >= fuseTime - 1) {
+			if (ignitedTime >= fuseTime - 1)
 				if (willExplodeToConfetti()) {
 					creeper.worldObj.playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ,
 							SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
@@ -51,7 +51,6 @@ public class ConfettiHandler {
 					if (ConfigHandler.damagesPlayers)
 						damagePlayers(creeper);
 				}
-			}
 
 		}
 	}
@@ -67,7 +66,7 @@ public class ConfettiHandler {
 	private void damagePlayers(EntityCreeper creeper) {
 		float explosionStrength = creeper.getPowered() ? 2.0F : 1.0F;
 		Explosion explosion = new Explosion(creeper.worldObj, creeper, creeper.posX, creeper.posY, creeper.posZ,
-				(float) 3 * explosionStrength, false, false);
+				3 * explosionStrength, false, false);
 		explosion.doExplosionA();
 	}
 
