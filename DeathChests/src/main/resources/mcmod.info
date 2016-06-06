@@ -1,0 +1,16 @@
+[
+{
+  "modid": "deathchests",
+  "name": "Death Chests",
+  "description": "Mod that spawns a chest with your inventory if you have a chest when you die.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SR2610"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
