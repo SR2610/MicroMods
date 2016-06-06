@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
+import com.sr2610.creeperconfetti.config.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleFirework;
@@ -38,15 +39,26 @@ public class ConfettiHandler {
 					.intValue();
 
 			if (ignitedTime >= fuseTime - 1) {
-				creeper.worldObj.playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ,
-						SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
-						(1.0F + (creeper.worldObj.rand.nextFloat() - creeper.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-				if (creeper.worldObj.isRemote)
-					spawnParticles(creeper);
-				creeper.setDead();
+				if (willExplodeToConfetti()) {
+					creeper.worldObj.playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ,
+							SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
+							(1.0F + (creeper.worldObj.rand.nextFloat() - creeper.worldObj.rand.nextFloat()) * 0.2F)
+									* 0.7F);
+					if (creeper.worldObj.isRemote)
+						spawnParticles(creeper);
+					creeper.setDead();
+				}
 			}
 
 		}
+	}
+
+	private boolean willExplodeToConfetti() {
+		Random rand = new Random();
+		if (rand.nextInt(100) >= ConfigHandler.confettiChance || ConfigHandler.confettiChance == 0)
+			return false;
+		else
+			return true;
 	}
 
 	@SideOnly(Side.CLIENT)
