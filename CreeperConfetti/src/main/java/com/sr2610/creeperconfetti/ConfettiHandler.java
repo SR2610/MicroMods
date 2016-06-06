@@ -15,6 +15,7 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.world.Explosion;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -47,6 +48,8 @@ public class ConfettiHandler {
 					if (creeper.worldObj.isRemote)
 						spawnParticles(creeper);
 					creeper.setDead();
+					if (ConfigHandler.damagesPlayers)
+						damagePlayers(creeper);
 				}
 			}
 
@@ -59,6 +62,13 @@ public class ConfettiHandler {
 			return false;
 		else
 			return true;
+	}
+
+	private void damagePlayers(EntityCreeper creeper) {
+		float explosionStrength = creeper.getPowered() ? 2.0F : 1.0F;
+		Explosion explosion = new Explosion(creeper.worldObj, creeper, creeper.posX, creeper.posY, creeper.posZ,
+				(float) 3 * explosionStrength, false, false);
+		explosion.doExplosionA();
 	}
 
 	@SideOnly(Side.CLIENT)
