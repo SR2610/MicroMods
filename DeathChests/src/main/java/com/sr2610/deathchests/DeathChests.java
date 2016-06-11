@@ -5,10 +5,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
-@Mod(modid = DeathChests.MODID, version = DeathChests.VERSION)
+@Mod(modid = DeathChests.MODID, version = DeathChests.VERSION, updateJSON = DeathChests.UPDATEJSON)
 public class DeathChests {
 	public static final String MODID = "deathchests";
 	public static final String VERSION = "1.0";
+	public static final String UPDATEJSON = "http://sr2610.com/micromods/deathChests/deathChestUpdate.json";
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {

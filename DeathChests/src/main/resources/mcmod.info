@@ -5,11 +5,11 @@
   "description": "Mod that spawns a chest with your inventory if you have a chest when you die.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://sr2610.com/modding",
   "updateUrl": "",
   "authorList": ["SR2610"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }
