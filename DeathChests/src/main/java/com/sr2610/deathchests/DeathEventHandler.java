@@ -32,7 +32,7 @@ public class DeathEventHandler {
 			if (stacksTransferred > chest.getSizeInventory())
 				return;
 			if (droppedStack.getEntityItem().stackSize != 0)
-				chest.setInventorySlotContents(stacksTransferred - 1, droppedStack.getEntityItem());
+				chest.setInventorySlotContents(stacksTransferred - 2, droppedStack.getEntityItem());
 			droppedStack.setDead();
 
 		}
