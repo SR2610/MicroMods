@@ -2,6 +2,8 @@ package com.sr2610.deathchests;
 
 import java.util.List;
 
+import com.sr2610.deathchests.config.ConfigHandler;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -13,11 +15,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DeathEventHandler {
 
+	private boolean foundChest;
+
 	@SubscribeEvent
 	public void handlePlayerDeath(PlayerDropsEvent event) {
 		if (checkForChest(event.getDrops()))
 			transferIntoChest(event);
-
+		foundChest = false;
 	}
 
 	private void transferIntoChest(PlayerDropsEvent event) {
@@ -32,7 +36,10 @@ public class DeathEventHandler {
 			if (stacksTransferred > chest.getSizeInventory())
 				return;
 			if (droppedStack.getEntityItem().stackSize != 0)
-				chest.setInventorySlotContents(stacksTransferred - 2, droppedStack.getEntityItem());
+				if (foundChest)
+					chest.setInventorySlotContents(stacksTransferred - 2, droppedStack.getEntityItem());
+				else
+					chest.setInventorySlotContents(stacksTransferred - 1, droppedStack.getEntityItem());
 			droppedStack.setDead();
 
 		}
@@ -44,9 +51,14 @@ public class DeathEventHandler {
 		for (EntityItem droppedStack : list) {
 			if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
 				droppedStack.getEntityItem().stackSize--;
+				foundChest = true;
 				return true;
 			}
+
 		}
+		if (!ConfigHandler.requiresChest)
+			return true;
+
 		return false;
 
 	}
