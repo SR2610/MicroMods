@@ -1,44 +1,52 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "1.2"
+
+version = "1.3"
 group= "com.sr2610.deathchests"
 archivesBaseName = "deathchests"
 
+
+sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
+
 minecraft {
-    version = "1.10.2-12.18.1.2011"
-    runDir = "run" 
-    mappings = "snapshot_20160518"
+    version = "1.11.2-13.20.0.2228"
+    runDir = "run"
+   
+    mappings = "snapshot_20161220"
 }
 
 dependencies {
-  
+
 
 }
 
-processResources
-{
-   
+processResources {
+    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
+        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

@@ -28,14 +28,14 @@ public class DeathEventHandler {
 		int stacksTransferred = 0;
 		EntityPlayer player = event.getEntityPlayer();
 		BlockPos position = new BlockPos(player.posX, player.posY, player.posZ);
-		player.worldObj.setBlockState(position, Blocks.CHEST.getDefaultState(), 2);
-		TileEntityChest chest = (TileEntityChest) player.worldObj.getTileEntity(position);
-
+		player.world.setBlockState(position, Blocks.CHEST.getDefaultState(), 2);
+		TileEntityChest chest = (TileEntityChest) player.world.getTileEntity(position);
+		
 		for (EntityItem droppedStack : event.getDrops()) {
 			stacksTransferred++;
 			if (stacksTransferred > chest.getSizeInventory())
 				return;
-			if (droppedStack.getEntityItem().stackSize != 0)
+			if (droppedStack.getEntityItem().getCount() != 0)
 				if (foundChest)
 					chest.setInventorySlotContents(stacksTransferred - 2, droppedStack.getEntityItem());
 				else
@@ -50,7 +50,7 @@ public class DeathEventHandler {
 
 		for (EntityItem droppedStack : list) {
 			if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
-				droppedStack.getEntityItem().stackSize--;
+				droppedStack.getEntityItem().setCount((droppedStack.getEntityItem().getCount())-1);
 				foundChest = true;
 				return true;
 			}
