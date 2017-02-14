@@ -26,8 +26,8 @@ public class ConfigHandler {
 
 	
 
-		requiresChest = configFile.getBoolean("Requires Chest", Configuration.CATEGORY_GENERAL, requiresChest,
-				"Set to false if a chest is not needed to spawn a death chest.");
+		requiresChest = configFile.getBoolean("Requires Chest in Inventory", Configuration.CATEGORY_GENERAL, requiresChest,
+				"Set to false if you want a chest to always spawn.");
 
 		if (configFile.hasChanged())
 			configFile.save();
