@@ -41,11 +41,11 @@ public class ConfettiHandler {
 
 			if (ignitedTime >= fuseTime - 1)
 				if (willExplodeToConfetti()) {
-					creeper.worldObj.playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ,
+					creeper.getEntityWorld().playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ,
 							SoundEvents.ENTITY_FIREWORK_TWINKLE, SoundCategory.BLOCKS, 0.5F,
-							(1.0F + (creeper.worldObj.rand.nextFloat() - creeper.worldObj.rand.nextFloat()) * 0.2F)
+							(1.0F + (creeper.getEntityWorld().rand.nextFloat() - creeper.getEntityWorld().rand.nextFloat()) * 0.2F)
 									* 0.7F);
-					if (creeper.worldObj.isRemote)
+					if (creeper.getEntityWorld().isRemote)
 						spawnParticles(creeper);
 					creeper.setDead();
 					if (ConfigHandler.damagesPlayers)
@@ -65,14 +65,14 @@ public class ConfettiHandler {
 
 	private void damagePlayers(EntityCreeper creeper) {
 		float explosionStrength = creeper.getPowered() ? 2.0F : 1.0F;
-		Explosion explosion = new Explosion(creeper.worldObj, creeper, creeper.posX, creeper.posY, creeper.posZ,
+		Explosion explosion = new Explosion(creeper.getEntityWorld(), creeper, creeper.posX, creeper.posY, creeper.posZ,
 				3 * explosionStrength, false, false);
 		explosion.doExplosionA();
 	}
 
 	@SideOnly(Side.CLIENT)
 	private void spawnParticles(EntityCreeper creeper) {
-		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.worldObj, creeper.posX,
+		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX,
 				creeper.posY, creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
 	}
 
