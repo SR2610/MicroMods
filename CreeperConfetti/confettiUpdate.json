@@ -1,0 +1,19 @@
+{
+  "homepage": "http://sr2610.com/mods.html",
+  "promos": {
+    "1.11.2-latest": "1.3",
+    "1.11.2-recommended": "1.3"
+  },
+  "1.9.4": {
+    "1.1.1": "-Added Version Checker\n-Added Configuration options",
+    "1.1": "-Ported to 1.9.4"
+  },
+  "1.10": {
+    "1.2": "-Ported to 1.10"
+  }, "1.10.2": {
+    "1.2.1": "-Ported to 1.10.2"
+  }, "1.11.2": {
+    "1.3": "-Ported to 1.11.2"
+  }
+  
+}
