@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
-import com.sr2610.creeperconfetti.config.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleFirework;
@@ -73,7 +72,7 @@ public class ConfettiHandler {
 	@SideOnly(Side.CLIENT)
 	private void spawnParticles(EntityCreeper creeper) {
 		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX,
-				creeper.posY, creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
+				creeper.posY+0.5F, creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
 	}
 
 	private NBTTagCompound generateTag() {
