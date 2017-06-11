@@ -2,14 +2,14 @@
 {
   "modid": "creeperconfetti",
   "name": "Creeper Confetti",
-  "description": "Mod that replaces the Creeper explosion with Confetti",
+  "description": "A mod that replaces the Creeper explosion with Confetti.  YAY!",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://sr2610.com/modding",
+  "url": "mods.sr2610.com",
   "updateUrl": "",
   "authorList": ["SR2610"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }

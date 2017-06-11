@@ -1,34 +1,35 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.3"
+
+version = "1.4"
 group= "com.sr2610.creeperconfetti"
 archivesBaseName = "creeperconfetti"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
 minecraft {
-    version = "1.11.2-13.20.0.2315"
+    version = "1.12-14.21.0.2321"
     runDir = "run"
     mappings = "snapshot_20161220"
+	useDepAts = true
 }
 
 dependencies {
-  
-
 }
 
-processResources
-{
-   
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
@@ -42,4 +43,3 @@ processResources
         exclude 'mcmod.info'
     }
 }
-
