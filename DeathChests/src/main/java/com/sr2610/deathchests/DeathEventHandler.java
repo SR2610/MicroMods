@@ -1,7 +1,5 @@
 package com.sr2610.deathchests;
 
-import com.sr2610.deathchests.config.ConfigHandler;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
