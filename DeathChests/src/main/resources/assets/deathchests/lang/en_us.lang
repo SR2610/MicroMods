@@ -1,0 +1,4 @@
+#CONFIG
+deathchests.config.title=Death Chests Configuration
+deathchests.general.requireschest=Requires Chest
+deathchests.general.requireschest.tooltip=Set to true if the player requires a chest in their inventory.
