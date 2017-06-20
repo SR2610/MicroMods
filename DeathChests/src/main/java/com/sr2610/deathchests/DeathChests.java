@@ -32,34 +32,40 @@ public class DeathChests {
 		boolean spawnChest = false;
 		boolean trapped = false;
 		int counter = 0;
-		if (!ConfigHandler.requiresChest) {
+		int posX = MathHelper.floor(event.getEntityPlayer().posX);
+		int posY = MathHelper.floor(event.getEntityPlayer().posY);
+		int posZ = MathHelper.floor(event.getEntityPlayer().posZ);
+		World world = event.getEntityPlayer().world;
+		BlockPos spawnPos = new BlockPos(posX, posY, posZ);
+		if (!world.getBlockState(spawnPos).getBlock().isReplaceable(world, spawnPos))
+			return;
+
+		if (ConfigHandler.requiresChest) {
+			for (EntityItem droppedStack : event.getDrops()) {
+				if (!spawnChest)
+					if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
+						droppedStack.getEntityItem().setCount(droppedStack.getEntityItem().getCount() - 1);
+						spawnChest = true;
+					} else if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)) {
+						droppedStack.getEntityItem().setCount(droppedStack.getEntityItem().getCount() - 1);
+						spawnChest = true;
+						trapped = true;
+					}
+			}
+		} else {
 			spawnChest = true;
 		}
 
-		for (EntityItem droppedStack : event.getDrops()) {
-			if (!spawnChest)
-				if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
-					droppedStack.getEntityItem().setCount(droppedStack.getEntityItem().getCount() - 1);
-					spawnChest = true;
-				} else if (droppedStack.getEntityItem().getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)) {
-					droppedStack.getEntityItem().setCount(droppedStack.getEntityItem().getCount() - 1);
-					spawnChest = true;
-					trapped = true;
-				}
-		}
-
 		if (spawnChest) {
-			int posX = MathHelper.floor(event.getEntityPlayer().posX);
-			int posY = MathHelper.floor(event.getEntityPlayer().posY);
-			int posZ = MathHelper.floor(event.getEntityPlayer().posZ);
-			World world = event.getEntityPlayer().world;
 
-			if (!trapped)
-				world.setBlockState(new BlockPos(posX, posY, posZ), Blocks.CHEST.getDefaultState(), 2);
-			else
-				world.setBlockState(new BlockPos(posX, posY, posZ), Blocks.TRAPPED_CHEST.getDefaultState(), 2);
+			if (!trapped) {
+				world.setBlockState(spawnPos, Blocks.CHEST.getDefaultState(), 3);
+			} else {
+				world.setBlockState(spawnPos, Blocks.TRAPPED_CHEST.getDefaultState(), 3);
+			}
 
 			TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(posX, posY, posZ));
+
 			for (EntityItem droppedItemEntity : event.getDrops()) {
 				counter++;
 				ItemStack droppedItem = droppedItemEntity.getEntityItem();
@@ -71,6 +77,8 @@ public class DeathChests {
 													// spawning in the world
 				}
 			}
+
 		}
+
 	}
 }
