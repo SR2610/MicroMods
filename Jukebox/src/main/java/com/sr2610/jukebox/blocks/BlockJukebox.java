@@ -1,4 +1,7 @@
-package com.sr2610.jukebox;
+package com.sr2610.jukebox.blocks;
+
+import com.sr2610.jukebox.JukeboxMod;
+import com.sr2610.jukebox.gui.GuiHandler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;

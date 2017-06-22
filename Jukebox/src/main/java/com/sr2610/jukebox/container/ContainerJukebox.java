@@ -1,4 +1,6 @@
-package com.sr2610.jukebox;
+package com.sr2610.jukebox.container;
+
+import com.sr2610.jukebox.blocks.TileEntityJukebox;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

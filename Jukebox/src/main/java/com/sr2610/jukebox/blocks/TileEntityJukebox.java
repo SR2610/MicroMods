@@ -1,10 +1,11 @@
-package com.sr2610.jukebox;
+package com.sr2610.jukebox.blocks;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -130,7 +131,10 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return true;
+		if (stack.getItem() instanceof ItemRecord)
+			return true;
+		else
+			return false;
 	}
 
 	@Override

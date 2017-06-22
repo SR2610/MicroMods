@@ -1,5 +1,9 @@
 package com.sr2610.jukebox;
 
+import com.sr2610.jukebox.blocks.BlockJukebox;
+import com.sr2610.jukebox.blocks.TileEntityJukebox;
+import com.sr2610.jukebox.gui.GuiHandler;
+
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;

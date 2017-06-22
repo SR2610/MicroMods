@@ -1,4 +1,7 @@
-package com.sr2610.jukebox;
+package com.sr2610.jukebox.gui;
+
+import com.sr2610.jukebox.blocks.TileEntityJukebox;
+import com.sr2610.jukebox.container.ContainerJukebox;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
