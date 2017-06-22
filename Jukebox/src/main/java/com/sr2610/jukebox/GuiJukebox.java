@@ -29,8 +29,8 @@ public class GuiJukebox extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-	   // String s = this.te.getDisplayName().getUnformattedText();
-	    this.fontRenderer.drawString("Boobs", 88 - this.fontRenderer.getStringWidth("Boobs") / 2, 6, 4210752);            //#404040
+	    String s = this.te.getDisplayName().getUnformattedText();
+	    this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);            //#404040
 	    this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, 72, 4210752);      //#404040
 	}
 }

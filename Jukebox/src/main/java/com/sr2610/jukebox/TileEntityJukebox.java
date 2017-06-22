@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class TileEntityJukebox extends TileEntity implements IInventory {
 
@@ -29,8 +32,14 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 	}
 
 	@Override
+	public ITextComponent getDisplayName() {
+		return this.hasCustomName() ? new TextComponentString(this.getName())
+				: new TextComponentTranslation(this.getName());
+	}
+
+	@Override
 	public int getSizeInventory() {
-		return 14;
+		return 12;
 	}
 
 	@Override
