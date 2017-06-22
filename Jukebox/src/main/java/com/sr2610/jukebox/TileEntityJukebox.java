@@ -17,7 +17,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.customName : "container.chest";
+		return this.hasCustomName() ? this.customName : "container.jukebox";
 	}
 
 	public boolean hasCustomName() {
@@ -30,7 +30,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return 12;
+		return 14;
 	}
 
 	@Override
