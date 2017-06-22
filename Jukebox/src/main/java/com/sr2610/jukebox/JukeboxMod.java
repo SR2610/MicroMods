@@ -22,6 +22,7 @@ public class JukeboxMod {
 	public void preinit(FMLPreInitializationEvent event) {
 		GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
 		GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
+		GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
 		registerBlock();
 	}
 
