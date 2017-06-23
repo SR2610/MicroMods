@@ -39,8 +39,14 @@ public class JukeboxMod {
 		public void preInit(FMLPreInitializationEvent e) {
 			super.preInit(e);
 			registerBlock();
+			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
+
 
 		}
+	}
+
+	public static class ServerProxy extends CommonProxy {
+
 	}
 
 	public static class CommonProxy {
@@ -57,7 +63,6 @@ public class JukeboxMod {
 			GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
 			GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
 			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
-			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
 			PacketHandler.registerMessages("jukebox");
 		}
 	}
