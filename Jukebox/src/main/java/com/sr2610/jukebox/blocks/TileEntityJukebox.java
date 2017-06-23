@@ -21,6 +21,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 	private NonNullList<ItemStack> contents = NonNullList.<ItemStack>withSize(12, ItemStack.EMPTY);
 	private String customName;
 	public int selectedTrack = 0;
+	public int currentlyPlaying = -1;
 
 	@Override
 	public void clear() {
@@ -196,17 +197,20 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		if (stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
 		}
-
+		if (index == currentlyPlaying)
+			togglePause(true);
 		markDirty();
 	}
 
-	public void togglePause(boolean pause) {
+	public void togglePause(boolean shouldStopSong) {
 
 		world.playEvent(1010, pos, 0);
 		world.playRecord(pos, (SoundEvent) null);
+		currentlyPlaying = -1;
 
-		if (!contents.get(selectedTrack).isEmpty() && !pause) {
+		if (!contents.get(selectedTrack).isEmpty() && !shouldStopSong) {
 			world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(contents.get(selectedTrack).getItem()));
+			currentlyPlaying = selectedTrack;
 		}
 
 	}
