@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, updateJSON = "https://github.com/SR2610/MicroMods/blob/master/Jukebox/update.json")
+@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
 public class JukeboxMod {
 
 	public static class ClientProxy extends CommonProxy {
