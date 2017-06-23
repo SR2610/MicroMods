@@ -127,7 +127,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		}
 		while (contents.get(selectedTrack).isEmpty() || contents.get(selectedTrack) == null) {
 			selectedTrack++;
-			if (selectedTrack >= 11) {
+			if (selectedTrack >= 12) {
 				selectedTrack = 0;
 			}
 		}
@@ -149,7 +149,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		}
 		while (contents.get(selectedTrack).isEmpty() || contents.get(selectedTrack) == null) {
 			selectedTrack--;
-			if (selectedTrack <= 0) {
+			if (selectedTrack <= -1) {
 				selectedTrack = 11;
 			}
 		}
