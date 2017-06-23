@@ -215,6 +215,8 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		} else if (!contents.get(selectedTrack).isEmpty()) {
 			world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(contents.get(selectedTrack).getItem()));
 			paused = false;
+		} else {
+			nextSong();
 		}
 
 	}
