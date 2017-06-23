@@ -3,6 +3,7 @@ package com.sr2610.jukebox;
 import com.sr2610.jukebox.blocks.BlockJukebox;
 import com.sr2610.jukebox.blocks.TileEntityJukebox;
 import com.sr2610.jukebox.gui.GuiHandler;
+import com.sr2610.jukebox.network.PacketHandler;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -14,7 +15,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -32,20 +35,18 @@ public class JukeboxMod {
 	public static final String VERSION = "1.0";
 	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
 
+	@SidedProxy
+	public static CommonProxy proxy;
+
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent event) {
-		GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
-		GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
-		GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
-		registerBlock();
-		MinecraftForge.EVENT_BUS.register(this);
+		proxy.preInit(event);
 
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
+		proxy.init(event);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -58,5 +59,39 @@ public class JukeboxMod {
 	public void textureStich(TextureStitchEvent.Pre event) {
 
 		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
+	}
+
+	public static class CommonProxy {
+		public void preInit(FMLPreInitializationEvent e) {
+			GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
+			GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
+			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
+			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
+			PacketHandler.registerMessages("jukebox");
+		}
+
+		public void init(FMLInitializationEvent e) {
+			NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
+		}
+
+		public void postInit(FMLPostInitializationEvent e) {
+
+		}
+	}
+
+	public static class ClientProxy extends CommonProxy {
+		@Override
+		public void preInit(FMLPreInitializationEvent e) {
+			super.preInit(e);
+			registerBlock();
+
+		}
+
+		@Override
+		public void init(FMLInitializationEvent e) {
+			super.init(e);
+
+		}
 	}
 }

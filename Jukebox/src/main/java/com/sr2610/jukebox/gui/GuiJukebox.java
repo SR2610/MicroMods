@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import com.sr2610.jukebox.blocks.TileEntityJukebox;
 import com.sr2610.jukebox.container.ContainerJukebox;
+import com.sr2610.jukebox.network.PacketHandler;
+import com.sr2610.jukebox.network.PacketSendNext;
+import com.sr2610.jukebox.network.PacketSendPause;
+import com.sr2610.jukebox.network.PacketSendPrevious;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -73,13 +77,16 @@ public class GuiJukebox extends GuiContainer {
 		if (button.enabled) {
 			switch (button.id) {
 			case 0:
-				te.togglePause();
+				// te.togglePause();
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos()));
 				break;
 			case 1:
-				te.nextSong();
+				// te.nextSong();
+				PacketHandler.INSTANCE.sendToServer(new PacketSendNext(te.getPos()));
 				break;
 			case 2:
-				te.previousSong();
+				// te.previousSong();
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPrevious(te.getPos()));
 				break;
 			}
 		}

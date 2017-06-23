@@ -177,6 +177,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 	}
 
 	public void nextSong() {
+		System.out.println(selectedTrack + ":" + world.isRemote);
 		if (this.isEmpty())
 			return;
 		selectedTrack++;
