@@ -1,10 +1,14 @@
 package com.sr2610.jukebox.gui;
 
+import java.io.IOException;
+
 import com.sr2610.jukebox.blocks.TileEntityJukebox;
 import com.sr2610.jukebox.container.ContainerJukebox;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
@@ -12,6 +16,10 @@ public class GuiJukebox extends GuiContainer {
 
 	private IInventory playerInv;
 	private TileEntityJukebox te;
+
+	private GuiButton pause;
+	private GuiButton next;
+	private GuiButton previous;
 
 	public GuiJukebox(IInventory playerInv, TileEntityJukebox te) {
 		super(new ContainerJukebox(playerInv, te));
@@ -27,6 +35,15 @@ public class GuiJukebox extends GuiContainer {
 		this.drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		this.renderHoveredToolTip(mouseX, mouseY);
+	}
+
+	public void initGui() {
+		super.initGui();
+		this.buttonList.clear();
+		this.pause = this.addButton(new GuiButton(0, guiLeft + 145, guiTop + 15, 20, 20, I18n.format("jukebox.pause")));
+		this.next = this.addButton(new GuiButton(1, guiLeft + 145, guiTop + 40, 20, 20, I18n.format("jukebox.next")));
+		this.previous = this
+				.addButton(new GuiButton(2, guiLeft + 10, guiTop + 40, 20, 20, I18n.format("jukebox.previous")));
 	}
 
 	@Override
@@ -49,6 +66,23 @@ public class GuiJukebox extends GuiContainer {
 		x = index % 6;
 		y = index / 6;
 		this.drawTexturedModalRect(32 + x * 18, 21 + y * 18, 234, 0, 22, 22);
+
+	}
+
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button.enabled) {
+			switch (button.id) {
+			case 0:
+				te.togglePause();
+				break;
+			case 1:
+				te.nextSong();
+				break;
+			case 2:
+				te.previousSong();
+				break;
+			}
+		}
 
 	}
 }
