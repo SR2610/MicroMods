@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"GGG",
+		"NJN",
+		"NCN"
+	],
+	"key": {
+		"G": {
+			"item": "minecraft:glass",
+			"data": 0
+		},
+		"C": {
+			"item": "minecraft:chest"
+		},
+		"J": {
+			"item": "minecraft:jukebox"
+		},
+		"N": {
+			"item": "minecraft:noteblock"
+		}
+	},
+	"result": {
+		"item": "jukebox:jukebox"
+	}
+}
