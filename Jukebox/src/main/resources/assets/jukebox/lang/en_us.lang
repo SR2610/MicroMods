@@ -1,6 +1,7 @@
 container.jukebox=Jukebox
 tile.jukebox:jukebox.name=Jukebox
 
-jukebox.pause=►
+jukebox.pause=¦¦
+jukebox.play=►
 jukebox.next=>>
 jukebox.previous=<<

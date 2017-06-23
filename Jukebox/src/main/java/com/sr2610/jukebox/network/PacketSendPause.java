@@ -12,12 +12,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSendPause implements IMessage {
+
 	public static class Handler implements IMessageHandler<PacketSendPause, IMessage> {
 		private void handle(PacketSendPause message, MessageContext ctx) {
 			EntityPlayerMP playerEntity = ctx.getServerHandler().player;
 			World world = playerEntity.world;
 			TileEntityJukebox juke = (TileEntityJukebox) world.getTileEntity(message.blockPos);
-			juke.togglePause();
+			juke.togglePause(message.pause);
 
 		}
 
@@ -29,19 +30,22 @@ public class PacketSendPause implements IMessage {
 	}
 
 	private BlockPos blockPos;
+	private boolean pause;
 
 	public PacketSendPause() {
 
 	}
 
-	public PacketSendPause(BlockPos pos) {
+	public PacketSendPause(BlockPos pos, boolean shouldPause) {
 		blockPos = pos;
+		pause = shouldPause;
 
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		blockPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		pause = buf.readBoolean();
 	}
 
 	@Override
@@ -49,5 +53,6 @@ public class PacketSendPause implements IMessage {
 		buf.writeInt(blockPos.getX());
 		buf.writeInt(blockPos.getY());
 		buf.writeInt(blockPos.getZ());
+		buf.writeBoolean(pause);
 	}
 }

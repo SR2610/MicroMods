@@ -20,7 +20,6 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	private NonNullList<ItemStack> contents = NonNullList.<ItemStack>withSize(12, ItemStack.EMPTY);
 	private String customName;
-	private boolean paused = false;
 	public int selectedTrack = 0;
 
 	@Override
@@ -133,8 +132,6 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 				selectedTrack = 0;
 			}
 		}
-		paused = true;
-		togglePause();
 
 	}
 
@@ -157,8 +154,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 				selectedTrack = 11;
 			}
 		}
-		paused = true;
-		togglePause();
+
 	}
 
 	@Override
@@ -172,7 +168,6 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 			customName = compound.getString("CustomName");
 		}
 
-		paused = compound.getBoolean("Paused");
 		selectedTrack = compound.getInteger("Track");
 	}
 
@@ -206,17 +201,14 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		markDirty();
 	}
 
-	public void togglePause() {
-		if (!paused) {
-			world.playEvent(1010, pos, 0);
-			world.playRecord(pos, (SoundEvent) null);
-			paused = true;
-		} else if (!contents.get(selectedTrack).isEmpty()) {
+	public void togglePause(boolean pause) {
+
+		world.playEvent(1010, pos, 0);
+		world.playRecord(pos, (SoundEvent) null);
+		
+		 if (!contents.get(selectedTrack).isEmpty() && !pause)
+			
 			world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(contents.get(selectedTrack).getItem()));
-			paused = false;
-		} else {
-			nextSong();
-		}
 
 	}
 
@@ -230,7 +222,6 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 			compound.setString("CustomName", customName);
 		}
 
-		compound.setBoolean("Paused", paused);
 		compound.setInteger("Track", selectedTrack);
 		return compound;
 	}

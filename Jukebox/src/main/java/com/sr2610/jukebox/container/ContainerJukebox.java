@@ -22,7 +22,7 @@ public class ContainerJukebox extends Container {
 
 		for (int y = 0; y < 2; ++y) {
 			for (int x = 0; x < 6; ++x) {
-				addSlotToContainer(new SlotRecord(te, x + y * 6, 35 + x * 18, 24 + y * 18));
+				addSlotToContainer(new SlotRecord(te, x + y * 6, 8 + x * 18, 24 + y * 18));
 			}
 		}
 

@@ -22,6 +22,7 @@ public class GuiJukebox extends GuiContainer {
 	private TileEntityJukebox te;
 
 	private GuiButton pause;
+	private GuiButton play;
 	private GuiButton next;
 	private GuiButton previous;
 
@@ -40,13 +41,16 @@ public class GuiJukebox extends GuiContainer {
 		if (button.enabled) {
 			switch (button.id) {
 			case 0:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos()));
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(),true));
 				break;
 			case 1:
 				PacketHandler.INSTANCE.sendToServer(new PacketSendNext(te.getPos()));
 				break;
 			case 2:
 				PacketHandler.INSTANCE.sendToServer(new PacketSendPrevious(te.getPos()));
+				break;
+			case 3:
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(),false));
 				break;
 			}
 		}
@@ -72,7 +76,7 @@ public class GuiJukebox extends GuiContainer {
 		int x, y;
 		x = index % 6;
 		y = index / 6;
-		this.drawTexturedModalRect(32 + x * 18, 21 + y * 18, 234, 0, 22, 22);
+		this.drawTexturedModalRect(6 + x * 18, 22 + y * 18, 236, 0, 20, 20);
 
 	}
 
@@ -88,7 +92,9 @@ public class GuiJukebox extends GuiContainer {
 		super.initGui();
 		buttonList.clear();
 		pause = this.addButton(new GuiButton(0, guiLeft + 145, guiTop + 15, 20, 20, I18n.format("jukebox.pause")));
+		play = this.addButton(new GuiButton(3, guiLeft + 120, guiTop + 15, 20, 20, I18n.format("jukebox.play")));
 		next = this.addButton(new GuiButton(1, guiLeft + 145, guiTop + 40, 20, 20, I18n.format("jukebox.next")));
-		previous = this.addButton(new GuiButton(2, guiLeft + 10, guiTop + 40, 20, 20, I18n.format("jukebox.previous")));
+		previous = this
+				.addButton(new GuiButton(2, guiLeft + 120, guiTop + 40, 20, 20, I18n.format("jukebox.previous")));
 	}
 }

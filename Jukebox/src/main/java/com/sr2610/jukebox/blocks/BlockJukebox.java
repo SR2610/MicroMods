@@ -44,13 +44,9 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!worldIn.isRemote) {
-			if (playerIn.isSneaking()) {
-				TileEntityJukebox juke = (TileEntityJukebox) worldIn.getTileEntity(pos);
-				juke.nextSong();
-			} else {
-				playerIn.openGui(JukeboxMod.instance, GuiHandler.JUKEBOX_GUI, worldIn, pos.getX(), pos.getY(),
-						pos.getZ());
-			}
+
+			playerIn.openGui(JukeboxMod.instance, GuiHandler.JUKEBOX_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+
 		}
 		return true;
 	}
