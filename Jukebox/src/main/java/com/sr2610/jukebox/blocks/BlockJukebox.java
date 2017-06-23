@@ -22,12 +22,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockJukebox extends Block implements ITileEntityProvider {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
+
+	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.9375D, 0.875D);
 
 	public BlockJukebox(String unlocalizedName) {
 		super(Material.ROCK);
@@ -107,9 +111,6 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 		return this.getDefaultState().withProperty(FACING, enumfacing);
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
 	public int getMetaFromState(IBlockState state) {
 		return ((EnumFacing) state.getValue(FACING)).getIndex();
 	}
@@ -129,6 +130,18 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+	}
+
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return AABB;
+	}
+
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+
+	public boolean isFullCube(IBlockState state) {
+		return false;
 	}
 
 }
