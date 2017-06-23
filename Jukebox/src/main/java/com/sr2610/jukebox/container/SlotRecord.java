@@ -12,14 +12,14 @@ public class SlotRecord extends Slot {
 		backgroundName = "jukebox:gui/record";
 	}
 
-	public boolean isItemValid(ItemStack stack) {
-		return stack.getItem() instanceof ItemRecord;
-	}
-
+	@Override
 	public int getItemStackLimit(ItemStack stack) {
 		return 1;
 	}
 
-
+	@Override
+	public boolean isItemValid(ItemStack stack) {
+		return stack.getItem() instanceof ItemRecord;
+	}
 
 }

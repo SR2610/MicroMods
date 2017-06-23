@@ -28,48 +28,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION)
 public class JukeboxMod {
 
-	@Instance
-	public static JukeboxMod instance = new JukeboxMod();
+	public static class ClientProxy extends CommonProxy {
+		@Override
+		public void init(FMLInitializationEvent e) {
+			super.init(e);
 
-	public static final String MODID = "jukebox";
-	public static final String VERSION = "1.0";
-	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
+		}
 
-	@SidedProxy
-	public static CommonProxy proxy;
+		@Override
+		public void preInit(FMLPreInitializationEvent e) {
+			super.preInit(e);
+			registerBlock();
 
-	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
-		proxy.preInit(event);
-
-	}
-
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		proxy.init(event);
-	}
-
-	@SideOnly(Side.CLIENT)
-	private static void registerBlock() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(jukebox), 0,
-				new ModelResourceLocation("jukebox:jukebox", "inventory"));
-	}
-
-	@SubscribeEvent
-	public void textureStich(TextureStitchEvent.Pre event) {
-
-		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
+		}
 	}
 
 	public static class CommonProxy {
-		public void preInit(FMLPreInitializationEvent e) {
-			GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
-			GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
-			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
-			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
-			PacketHandler.registerMessages("jukebox");
-		}
-
 		public void init(FMLInitializationEvent e) {
 			NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
@@ -78,20 +52,47 @@ public class JukeboxMod {
 		public void postInit(FMLPostInitializationEvent e) {
 
 		}
+
+		public void preInit(FMLPreInitializationEvent e) {
+			GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
+			GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
+			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
+			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
+			PacketHandler.registerMessages("jukebox");
+		}
 	}
 
-	public static class ClientProxy extends CommonProxy {
-		@Override
-		public void preInit(FMLPreInitializationEvent e) {
-			super.preInit(e);
-			registerBlock();
+	@Instance
+	public static JukeboxMod instance = new JukeboxMod();
+	public static final String MODID = "jukebox";
 
-		}
+	public static final String VERSION = "1.0";
 
-		@Override
-		public void init(FMLInitializationEvent e) {
-			super.init(e);
+	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
 
-		}
+	@SidedProxy
+	public static CommonProxy proxy;
+
+	@SideOnly(Side.CLIENT)
+	private static void registerBlock() {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(jukebox), 0,
+				new ModelResourceLocation("jukebox:jukebox", "inventory"));
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		proxy.init(event);
+	}
+
+	@EventHandler
+	public void preinit(FMLPreInitializationEvent event) {
+		proxy.preInit(event);
+
+	}
+
+	@SubscribeEvent
+	public void textureStich(TextureStitchEvent.Pre event) {
+
+		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
 	}
 }

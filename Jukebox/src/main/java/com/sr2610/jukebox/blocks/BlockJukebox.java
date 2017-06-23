@@ -27,11 +27,6 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityJukebox();
-	}
-
-	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState blockstate) {
 		TileEntityJukebox te = (TileEntityJukebox) world.getTileEntity(pos);
 		InventoryHelper.dropInventoryItems(world, pos, te);
@@ -41,11 +36,8 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
-			ItemStack stack) {
-		if (stack.hasDisplayName()) {
-			((TileEntityJukebox) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
-		}
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		return new TileEntityJukebox();
 	}
 
 	@Override
@@ -55,11 +47,20 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 			if (playerIn.isSneaking()) {
 				TileEntityJukebox juke = (TileEntityJukebox) worldIn.getTileEntity(pos);
 				juke.nextSong();
-			} else
+			} else {
 				playerIn.openGui(JukeboxMod.instance, GuiHandler.JUKEBOX_GUI, worldIn, pos.getX(), pos.getY(),
 						pos.getZ());
+			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		if (stack.hasDisplayName()) {
+			((TileEntityJukebox) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
+		}
 	}
 
 }

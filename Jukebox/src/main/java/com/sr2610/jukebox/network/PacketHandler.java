@@ -9,11 +9,14 @@ public class PacketHandler {
 
 	public static SimpleNetworkWrapper INSTANCE = null;
 
-	public PacketHandler() {
-	}
-
 	public static int nextID() {
 		return packetId++;
+	}
+
+	public static void registerMessages() {
+		INSTANCE.registerMessage(PacketSendNext.Handler.class, PacketSendNext.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSendPrevious.Handler.class, PacketSendPrevious.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSendPause.Handler.class, PacketSendPause.class, nextID(), Side.SERVER);
 	}
 
 	public static void registerMessages(String channelName) {
@@ -21,9 +24,6 @@ public class PacketHandler {
 		registerMessages();
 	}
 
-	public static void registerMessages() {
-		INSTANCE.registerMessage(PacketSendNext.Handler.class, PacketSendNext.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketSendPrevious.Handler.class, PacketSendPrevious.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketSendPause.Handler.class, PacketSendPause.class, nextID(), Side.SERVER);
+	public PacketHandler() {
 	}
 }
