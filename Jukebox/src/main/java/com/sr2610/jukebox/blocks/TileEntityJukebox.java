@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -176,6 +177,8 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 	}
 
 	public void nextSong() {
+		if (this.isEmpty())
+			return;
 		selectedTrack++;
 		if (selectedTrack >= 12)
 			selectedTrack = 0;
@@ -184,12 +187,14 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 			if (selectedTrack >= 11)
 				selectedTrack = 0;
 		}
-
+		paused = true;
 		togglePause();
 
 	}
 
 	public void previousSong() {
+		if (this.isEmpty())
+			return;
 		selectedTrack--;
 		if (selectedTrack <= -1)
 			selectedTrack = 11;
@@ -198,13 +203,19 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 			if (selectedTrack <= 0)
 				selectedTrack = 11;
 		}
-
+		paused = true;
 		togglePause();
 	}
 
 	public void togglePause() {
-		if (!contents.get(selectedTrack).isEmpty())
+		if (!paused) {
+			world.playEvent(1010, pos, 0);
+			world.playRecord(pos, (SoundEvent) null);
+			paused = true;
+		} else if (!contents.get(selectedTrack).isEmpty()) {
 			world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(contents.get(selectedTrack).getItem()));
+			paused = false;
+		}
 
 	}
 
