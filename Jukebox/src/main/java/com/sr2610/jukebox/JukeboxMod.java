@@ -41,12 +41,7 @@ public class JukeboxMod {
 			registerBlock();
 			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
 
-
 		}
-	}
-
-	public static class ServerProxy extends CommonProxy {
-
 	}
 
 	public static class CommonProxy {
@@ -65,6 +60,10 @@ public class JukeboxMod {
 			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
 			PacketHandler.registerMessages("jukebox");
 		}
+	}
+
+	public static class ServerProxy extends CommonProxy {
+
 	}
 
 	@Instance

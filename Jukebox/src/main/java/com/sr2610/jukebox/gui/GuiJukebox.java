@@ -41,7 +41,7 @@ public class GuiJukebox extends GuiContainer {
 		if (button.enabled) {
 			switch (button.id) {
 			case 0:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(),true));
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), true));
 				break;
 			case 1:
 				PacketHandler.INSTANCE.sendToServer(new PacketSendNext(te.getPos()));
@@ -50,7 +50,7 @@ public class GuiJukebox extends GuiContainer {
 				PacketHandler.INSTANCE.sendToServer(new PacketSendPrevious(te.getPos()));
 				break;
 			case 3:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(),false));
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), false));
 				break;
 			}
 		}
