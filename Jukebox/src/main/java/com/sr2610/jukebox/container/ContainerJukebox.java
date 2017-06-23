@@ -4,13 +4,18 @@ import com.sr2610.jukebox.blocks.TileEntityJukebox;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerJukebox extends Container {
 
 	private TileEntityJukebox te;
+
+	private int[] cachedFields;
 
 	public ContainerJukebox(IInventory playerInv, TileEntityJukebox te) {
 		this.te = te;
@@ -62,6 +67,38 @@ public class ContainerJukebox extends Container {
 		}
 
 		return itemstack;
+	}
+
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		boolean allFieldsHaveChanged = false;
+		boolean fieldHasChanged[] = new boolean[te.getFieldCount()];
+		if (cachedFields == null) {
+			cachedFields = new int[te.getFieldCount()];
+			allFieldsHaveChanged = true;
+		}
+		for (int i = 0; i < cachedFields.length; ++i) {
+			if (allFieldsHaveChanged || cachedFields[i] != te.getField(i)) {
+				cachedFields[i] = te.getField(i);
+				fieldHasChanged[i] = true;
+			}
+		}
+		for (IContainerListener listener : this.listeners) {
+			for (int fieldID = 0; fieldID < te.getFieldCount(); ++fieldID) {
+				if (fieldHasChanged[fieldID]) {
+
+					listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
+				}
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateProgressBar(int id, int data) {
+		te.setField(id, data);
 	}
 
 }

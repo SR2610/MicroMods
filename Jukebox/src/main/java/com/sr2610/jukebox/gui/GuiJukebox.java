@@ -42,6 +42,13 @@ public class GuiJukebox extends GuiContainer {
 		String s = this.te.getDisplayName().getUnformattedText();
 		this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752); // #404040
 		this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, 72, 4210752); // #404040
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("jukebox:textures/gui/jukebox.png"));
+		int index = te.selectedTrack;
+		int x, y;
+		x = index % 6;
+		y = index / 6;
+		this.drawTexturedModalRect(32 + x * 18, 21 + y * 18, 234, 0, 22, 22);
 
 	}
 }

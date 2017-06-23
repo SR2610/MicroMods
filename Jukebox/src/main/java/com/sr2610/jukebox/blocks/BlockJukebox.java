@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -34,6 +35,8 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	public void breakBlock(World world, BlockPos pos, IBlockState blockstate) {
 		TileEntityJukebox te = (TileEntityJukebox) world.getTileEntity(pos);
 		InventoryHelper.dropInventoryItems(world, pos, te);
+		world.playEvent(1010, pos, 0);
+		world.playRecord(pos, (SoundEvent) null);
 		super.breakBlock(world, pos, blockstate);
 	}
 
@@ -49,7 +52,12 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!worldIn.isRemote) {
-			playerIn.openGui(JukeboxMod.instance, GuiHandler.JUKEBOX_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			if (playerIn.isSneaking()) {
+				TileEntityJukebox juke = (TileEntityJukebox) worldIn.getTileEntity(pos);
+				juke.nextSong();
+			} else
+				playerIn.openGui(JukeboxMod.instance, GuiHandler.JUKEBOX_GUI, worldIn, pos.getX(), pos.getY(),
+						pos.getZ());
 		}
 		return true;
 	}

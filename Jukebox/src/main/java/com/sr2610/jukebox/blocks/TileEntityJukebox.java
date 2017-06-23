@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,8 +17,10 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class TileEntityJukebox extends TileEntity implements IInventory {
 
-	private NonNullList<ItemStack> contents = NonNullList.<ItemStack>withSize(18, ItemStack.EMPTY);
+	private NonNullList<ItemStack> contents = NonNullList.<ItemStack>withSize(12, ItemStack.EMPTY);
 	private String customName;
+	private boolean paused = false;
+	public int selectedTrack = 0;
 
 	@Override
 	public String getName() {
@@ -63,6 +66,9 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		if (compound.hasKey("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
 		}
+
+		this.paused = compound.getBoolean("Paused");
+		selectedTrack = compound.getInteger("Track");
 	}
 
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -74,6 +80,8 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 			compound.setString("CustomName", this.customName);
 		}
 
+		compound.setBoolean("Paused", paused);
+		compound.setInteger("Track", selectedTrack);
 		return compound;
 	}
 
@@ -139,21 +147,64 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	@Override
 	public int getField(int id) {
-		return 0;
+		switch (id) {
+		case 0:
+			return this.selectedTrack;
+		default:
+			return 0;
+		}
 	}
 
 	@Override
 	public void setField(int id, int value) {
+		switch (id) {
+		case 0:
+			this.selectedTrack = value;
+			break;
+		}
 
 	}
 
 	@Override
 	public int getFieldCount() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public void clear() {
+
+	}
+
+	public void nextSong() {
+		selectedTrack++;
+		if (selectedTrack >= 12)
+			selectedTrack = 0;
+		while (contents.get(selectedTrack).isEmpty() || contents.get(selectedTrack) == null) {
+			selectedTrack++;
+			if (selectedTrack >= 11)
+				selectedTrack = 0;
+		}
+
+		togglePause();
+
+	}
+
+	public void previousSong() {
+		selectedTrack--;
+		if (selectedTrack <= -1)
+			selectedTrack = 11;
+		while (contents.get(selectedTrack).isEmpty() || contents.get(selectedTrack) == null) {
+			selectedTrack--;
+			if (selectedTrack <= 0)
+				selectedTrack = 11;
+		}
+
+		togglePause();
+	}
+
+	public void togglePause() {
+		if (!contents.get(selectedTrack).isEmpty())
+			world.playEvent((EntityPlayer) null, 1010, pos, Item.getIdFromItem(contents.get(selectedTrack).getItem()));
 
 	}
 
