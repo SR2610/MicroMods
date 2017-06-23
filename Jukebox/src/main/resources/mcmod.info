@@ -5,11 +5,11 @@
   "description": "Mod that adds an improved jukebox to Minecraft.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://mods.sr2610.com",
   "updateUrl": "",
   "authorList": ["SR2610"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/jukebox/logo.png",
   "screenshots": [],
   "dependencies": []
 }
