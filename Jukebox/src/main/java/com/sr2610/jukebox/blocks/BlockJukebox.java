@@ -6,6 +6,8 @@ import com.sr2610.jukebox.gui.GuiHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -34,10 +36,13 @@ public class BlockJukebox extends Block implements ITileEntityProvider {
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.9375D, 0.875D);
 
 	public BlockJukebox(String unlocalizedName) {
-		super(Material.ROCK);
+		super(Material.WOOD, MapColor.DIRT);
 		setUnlocalizedName(JukeboxMod.MODID + ":" + unlocalizedName);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setHardness(2.0F);
+		setResistance(10.0F);
+		setSoundType(SoundType.WOOD);
 
 	}
 
