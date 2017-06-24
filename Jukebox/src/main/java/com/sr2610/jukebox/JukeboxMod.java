@@ -21,11 +21,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
+@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION,dependencies = "required-after:forge@[14.21.0.2349,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
 public class JukeboxMod {
 
 	public static class ClientProxy extends CommonProxy {
@@ -55,8 +56,11 @@ public class JukeboxMod {
 		}
 
 		public void preInit(FMLPreInitializationEvent e) {
-			GameRegistry.register(jukebox, new ResourceLocation(MODID, "jukebox"));
-			GameRegistry.register(new ItemBlock(jukebox), new ResourceLocation(MODID, "jukebox"));
+			jukebox.setRegistryName(new ResourceLocation(MODID, "jukebox"));
+			ForgeRegistries.BLOCKS.register(jukebox);
+			ItemBlock jukeboxItem = new ItemBlock(jukebox);
+			jukeboxItem.setRegistryName(new ResourceLocation(MODID, "jukebox"));
+			ForgeRegistries.ITEMS.register(jukeboxItem);
 			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
 			PacketHandler.registerMessages("jukebox");
 		}

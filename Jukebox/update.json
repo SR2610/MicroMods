@@ -1,10 +1,11 @@
 {
 	"1.12": {
-		"1.0": "Initial Release"
+		"1.0": "Initial Release",
+		"1.0.1": "Updated to new forge registry system.\nNow works on Forge Versions past 1.12-14.21.0.2348."		
 	},
 	"homepage": "https://minecraft.curseforge.com/projects/jukebox",
 	"promos": {
-		"1.12-latest": "1.0",
-		"1.12-recommended": "1.0"
+		"1.12-latest": "1.0.1",
+		"1.12-recommended": "1.0.1"
 	}
 }
