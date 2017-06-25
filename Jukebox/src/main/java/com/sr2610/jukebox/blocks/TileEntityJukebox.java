@@ -54,6 +54,8 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		switch (id) {
 		case 0:
 			return selectedTrack;
+		case 1:
+			return currentlyPlaying;
 		default:
 			return 0;
 		}
@@ -61,7 +63,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 
 	@Override
 	public int getFieldCount() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -186,6 +188,9 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		case 0:
 			selectedTrack = value;
 			break;
+		case 1:
+			currentlyPlaying = value;
+			break;
 		}
 
 	}
@@ -197,7 +202,7 @@ public class TileEntityJukebox extends TileEntity implements IInventory {
 		if (stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
 		}
-		if (index == currentlyPlaying)
+		if (index == currentlyPlaying && contents.get(index).isEmpty())
 			togglePause(true);
 		markDirty();
 	}

@@ -14,6 +14,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiJukebox extends GuiContainer {
@@ -21,10 +22,10 @@ public class GuiJukebox extends GuiContainer {
 	private IInventory playerInv;
 	private TileEntityJukebox te;
 
-	private GuiButton pause;
-	private GuiButton play;
-	private GuiButton next;
-	private GuiButton previous;
+	GuiButton pause;
+	GuiButton play;
+	GuiButton next;
+	GuiButton previous;
 
 	public GuiJukebox(IInventory playerInv, TileEntityJukebox te) {
 		super(new ContainerJukebox(playerInv, te));
@@ -69,6 +70,13 @@ public class GuiJukebox extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = te.getDisplayName().getUnformattedText();
 		fontRenderer.drawString(s, 88 - fontRenderer.getStringWidth(s) / 2, 6, 4210752); // #404040
+		if (te.currentlyPlaying != -1) {
+			fontRenderer.drawString(
+					I18n.format("jukebox.nowplaying")
+							+ ((ItemRecord) te.getStackInSlot(te.currentlyPlaying).getItem()).getRecordNameLocal(),
+					8, 62, 4210752); // #404040
+		} else
+			fontRenderer.drawString(I18n.format("jukebox.paused"), 8, 62, 4210752); // #404040
 		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, 72, 4210752); // #404040
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		mc.getTextureManager().bindTexture(new ResourceLocation("jukebox:textures/gui/jukebox.png"));
