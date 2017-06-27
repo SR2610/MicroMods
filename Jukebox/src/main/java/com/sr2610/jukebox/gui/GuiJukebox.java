@@ -38,24 +38,21 @@ public class GuiJukebox extends GuiContainer {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button.enabled) {
-			switch (button.id) {
-			case 0:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), true));
-				break;
-			case 1:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendNext(te.getPos()));
-				break;
-			case 2:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPrevious(te.getPos()));
-				break;
-			case 3:
-				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), false));
-				break;
-			}
-		}
+	public void initGui() {
+		super.initGui();
+		buttonList.clear();
+		pause = this.addButton(new GuiButton(0, guiLeft + 145, guiTop + 15, 20, 20, I18n.format("jukebox.pause")));
+		play = this.addButton(new GuiButton(3, guiLeft + 120, guiTop + 15, 20, 20, I18n.format("jukebox.play")));
+		next = this.addButton(new GuiButton(1, guiLeft + 145, guiTop + 40, 20, 20, I18n.format("jukebox.next")));
+		previous = this
+				.addButton(new GuiButton(2, guiLeft + 120, guiTop + 40, 20, 20, I18n.format("jukebox.previous")));
+	}
 
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override
@@ -89,20 +86,24 @@ public class GuiJukebox extends GuiContainer {
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button.enabled) {
+			switch (button.id) {
+			case 0:
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), true));
+				break;
+			case 1:
+				PacketHandler.INSTANCE.sendToServer(new PacketSendNext(te.getPos()));
+				break;
+			case 2:
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPrevious(te.getPos()));
+				break;
+			case 3:
+				PacketHandler.INSTANCE.sendToServer(new PacketSendPause(te.getPos(), false));
+				break;
+			}
+		}
+
 	}
 
-	@Override
-	public void initGui() {
-		super.initGui();
-		buttonList.clear();
-		pause = this.addButton(new GuiButton(0, guiLeft + 145, guiTop + 15, 20, 20, I18n.format("jukebox.pause")));
-		play = this.addButton(new GuiButton(3, guiLeft + 120, guiTop + 15, 20, 20, I18n.format("jukebox.play")));
-		next = this.addButton(new GuiButton(1, guiLeft + 145, guiTop + 40, 20, 20, I18n.format("jukebox.next")));
-		previous = this
-				.addButton(new GuiButton(2, guiLeft + 120, guiTop + 40, 20, 20, I18n.format("jukebox.previous")));
-	}
 }

@@ -26,8 +26,42 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION,dependencies = "required-after:forge@[14.21.0.2349,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
+@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, dependencies = "required-after:forge@[14.21.0.2349,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
 public class JukeboxMod {
+
+	@Instance
+	public static JukeboxMod instance = new JukeboxMod();
+	public static final String MODID = "jukebox";
+
+	public static final String VERSION = "1.0.1";
+
+	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
+
+	@SidedProxy
+	public static CommonProxy proxy;
+
+	@EventHandler
+	public void preinit(FMLPreInitializationEvent event) {
+		proxy.preInit(event);
+
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		proxy.init(event);
+	}
+
+	@SubscribeEvent
+	public void textureStich(TextureStitchEvent.Pre event) {
+
+		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static void registerBlock() {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(jukebox), 0,
+				new ModelResourceLocation("jukebox:jukebox", "inventory"));
+	}
 
 	public static class ClientProxy extends CommonProxy {
 		@Override
@@ -68,39 +102,5 @@ public class JukeboxMod {
 
 	public static class ServerProxy extends CommonProxy {
 
-	}
-
-	@Instance
-	public static JukeboxMod instance = new JukeboxMod();
-	public static final String MODID = "jukebox";
-
-	public static final String VERSION = "1.0.1";
-
-	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
-
-	@SidedProxy
-	public static CommonProxy proxy;
-
-	@SideOnly(Side.CLIENT)
-	private static void registerBlock() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(jukebox), 0,
-				new ModelResourceLocation("jukebox:jukebox", "inventory"));
-	}
-
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		proxy.init(event);
-	}
-
-	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
-		proxy.preInit(event);
-
-	}
-
-	@SubscribeEvent
-	public void textureStich(TextureStitchEvent.Pre event) {
-
-		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
 	}
 }

@@ -12,20 +12,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSendPrevious implements IMessage {
-	public static class Handler implements IMessageHandler<PacketSendPrevious, IMessage> {
-		private void handle(PacketSendPrevious message, MessageContext ctx) {
-			EntityPlayerMP playerEntity = ctx.getServerHandler().player;
-			World world = playerEntity.world;
-			TileEntityJukebox juke = (TileEntityJukebox) world.getTileEntity(message.blockPos);
-			juke.previousSong();
-		}
-
-		@Override
-		public IMessage onMessage(PacketSendPrevious message, MessageContext ctx) {
-			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
-			return null;
-		}
-	}
 
 	private BlockPos blockPos;
 
@@ -46,5 +32,20 @@ public class PacketSendPrevious implements IMessage {
 		buf.writeInt(blockPos.getX());
 		buf.writeInt(blockPos.getY());
 		buf.writeInt(blockPos.getZ());
+	}
+
+	public static class Handler implements IMessageHandler<PacketSendPrevious, IMessage> {
+		private void handle(PacketSendPrevious message, MessageContext ctx) {
+			EntityPlayerMP playerEntity = ctx.getServerHandler().player;
+			World world = playerEntity.world;
+			TileEntityJukebox juke = (TileEntityJukebox) world.getTileEntity(message.blockPos);
+			juke.previousSong();
+		}
+
+		@Override
+		public IMessage onMessage(PacketSendPrevious message, MessageContext ctx) {
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
+			return null;
+		}
 	}
 }
