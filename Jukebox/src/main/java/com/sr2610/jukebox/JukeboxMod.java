@@ -33,7 +33,7 @@ public class JukeboxMod {
 	public static JukeboxMod instance = new JukeboxMod();
 	public static final String MODID = "jukebox";
 
-	public static final String VERSION = "1.0.1";
+	public static final String VERSION = "1.1";
 
 	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
 
