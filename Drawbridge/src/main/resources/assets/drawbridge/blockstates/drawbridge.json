@@ -1,5 +1,10 @@
 {
     "variants": {
-        "normal": { "model": "drawbridge:drawbridge" }
+        "facing=down":  { "model": "drawbridge:drawbridge_vertical", "x": 180 },
+        "facing=up":    { "model": "drawbridge:drawbridge_vertical" },
+        "facing=north": { "model": "drawbridge:drawbridge" },
+        "facing=south": { "model": "drawbridge:drawbridge", "y": 180 },
+        "facing=west":  { "model": "drawbridge:drawbridge", "y": 270 },
+        "facing=east":  { "model": "drawbridge:drawbridge", "y": 90 }
     }
 }
