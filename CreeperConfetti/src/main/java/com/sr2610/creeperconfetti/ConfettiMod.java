@@ -5,11 +5,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
-@Mod(modid = ConfettiMod.MOD_ID, version = ConfettiMod.VERSION, updateJSON = ConfettiMod.UPDATEJSON)
+@Mod(modid = ConfettiMod.MOD_ID, version = ConfettiMod.VERSION, dependencies = "required-after:forge@[14.21.1.2387,)", updateJSON = ConfettiMod.UPDATEJSON)
 public class ConfettiMod {
 	public static final String MOD_ID = "creeperconfetti";
 	public static final String CONFIG_LANG = "creeperconfetti.config.title";
-	public static final String VERSION = "1.4";
+	public static final String VERSION = "1.4.1";
 	public static final String UPDATEJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/CreeperConfetti/confettiUpdate.json";
 
 	@EventHandler

@@ -5,7 +5,7 @@
   "description": "A mod that replaces the Creeper explosion with Confetti.  YAY!",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "mods.sr2610.com",
+  "url": "https://minecraft.curseforge.com/projects/creeper-confetti",
   "updateUrl": "https://raw.githubusercontent.com/SR2610/MicroMods/master/CreeperConfetti/confettiUpdate.json",
   "authorList": ["SR2610"],
   "credits": "",
