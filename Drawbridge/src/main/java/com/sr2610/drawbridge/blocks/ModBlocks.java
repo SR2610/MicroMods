@@ -9,11 +9,11 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ModBlocks {
 
-	public static BlockDrawbridge drawbridge = new BlockDrawbridge("drawbridge_basic");
+	public static BlockDrawbridge drawbridge = new BlockDrawbridge("drawbridge");
 
 	public static void createBlocks() {
 
-		RegisterBlockAndItemBlock(drawbridge, "drawbridge_basic");
+		RegisterBlockAndItemBlock(drawbridge, "drawbridge");
 
 	}
 

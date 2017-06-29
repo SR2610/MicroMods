@@ -11,7 +11,7 @@ public class BlockRenderRegistry {
 
 	public static void registerBlockRenderers() {
 
-		registerBlock(ModBlocks.drawbridge, "drawbridge_basic");
+		registerBlock(ModBlocks.drawbridge, "drawbridge");
 	}
 
 	private static void registerBlock(Block block, String filename) {
