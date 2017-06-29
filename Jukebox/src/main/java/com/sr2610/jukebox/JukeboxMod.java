@@ -26,14 +26,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, dependencies = "required-after:forge@[14.21.0.2349,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
+@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, dependencies = "required-after:forge@[14.21.1.2387,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
 public class JukeboxMod {
 
 	@Instance
 	public static JukeboxMod instance = new JukeboxMod();
 	public static final String MODID = "jukebox";
 
-	public static final String VERSION = "1.1";
+	public static final String VERSION = "1.2";
 
 	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
 
