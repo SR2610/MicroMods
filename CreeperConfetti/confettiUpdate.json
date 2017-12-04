@@ -1,6 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/creeper-confetti",
 	"promos": {
+	"1.12.2-latest": "1.4.2",
+		"1.12.2-recommended": "1.4.2",
 		"1.12-latest": "1.4.1",
 		"1.12-recommended": "1.4.1"
 	},
@@ -20,5 +22,9 @@
 	"1.12": {
 		"1.4": "-Ported to 1.2\n -Localised the Config Options",
 		"1.4.1": "-Updated forge version"
+	}
+	,
+	"1.12.2": {
+		"1.4.2": "-Updated forge version\n-Updated to 1.12.2\n-Special Effect for powered creepers"
 	}
 }

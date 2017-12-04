@@ -72,10 +72,10 @@ public class ConfettiHandler {
 	@SideOnly(Side.CLIENT)
 	private void spawnParticles(EntityCreeper creeper) {
 		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX,
-				creeper.posY+0.5F, creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag()));
+				creeper.posY+(creeper.getPowered()?2.5F:0.5F), creeper.posZ, 0, 0, 0, Minecraft.getMinecraft().effectRenderer, generateTag(creeper)));
 	}
 
-	private NBTTagCompound generateTag() {
+	private NBTTagCompound generateTag(EntityCreeper creeper) {
 		NBTTagCompound fireworkTag = new NBTTagCompound();
 		new NBTTagCompound();
 		NBTTagCompound fireworkItemTag = new NBTTagCompound();
@@ -99,7 +99,7 @@ public class ConfettiHandler {
 			colours[i] = list.get(i).intValue();
 		fireworkTag.setIntArray("Colors", colours);
 		fireworkTag.setBoolean("Flicker", true);
-		fireworkTag.setByte("Type", (byte) 4);
+		fireworkTag.setByte("Type", (byte) (creeper.getPowered()?3:4));
 		nbttaglist.appendTag(fireworkTag);
 
 		fireworkItemTag.setTag("Explosions", nbttaglist);
