@@ -1,37 +1,35 @@
-modLoader="javafml" #mandatory
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[25,)" #mandatory (24 is current forge version)
-# A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/SR2610/MicroMods/issues" #optional
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]] #mandatory
-# The modid of the mod
-modId="creeperconfetti" #mandatory
-# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="2.0" #mandatory
- # A display name for the mod
-displayName="Creeper Confetti" #mandatory
-# A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="https://raw.githubusercontent.com/SR2610/MicroMods/master/CreeperConfetti/confettiUpdate.json" #optional
-# A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://minecraft.curseforge.com/projects/creeper-confetti" #optional
-# A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
-# A text field displayed in the mod UI
-authors="SR2610" #optional
-# The description text for the mod (multi line!) (#mandatory)
+modLoader="javafml" 
+loaderVersion="[25,)"
+issueTrackerURL="https://github.com/SR2610/MicroMods/issues"
+logoFile="creeperconfetti.png"
+[[mods]]
+modId="creeperconfetti"
+version="${file.jarVersion}"
+displayName="Creeper Confetti"
+#updateJSONURL="http://myurl.me/"
+displayURL="https://minecraft.curseforge.com/projects/creeper-confetti"
+credits="The Forge Team"
+authors="SR2610"
 description='''
-A mod that replaces the Creeper explosion with Confetti.  YAY!
+A mod that replaces the Creeper explosion with Confetti
 '''
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.creeperconfetti]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[25,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-    side="BOTH"
+
+## A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+#[[dependencies.examplemod]] 
+#    # the modid of the dependency
+#    modId="forge" 
+#    # Does this dependency have to exist - if not, ordering below must be specified
+#    mandatory=true 
+#    # The version range of the dependency
+#    versionRange="[25,)" 
+#    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+#    ordering="NONE"
+#    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+#    side="BOTH"
+## Here's another dependency
+#[[dependencies.examplemod]]
+#    modId="minecraft"
+#    mandatory=true
+#    versionRange="[1.13.2]"
+#    ordering="NONE"
+#    side="BOTH"
