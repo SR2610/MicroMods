@@ -24,39 +24,39 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class ConfettiHandler {
 	private Method explode;
-	
+
 	@SubscribeEvent
-	public void creeperExplodeEvent(LivingEvent.LivingUpdateEvent event){
+	public void creeperExplodeEvent(LivingEvent.LivingUpdateEvent event) {
 
 		EntityCreeper creeper = null;
-		if(event.getEntityLiving()instanceof  EntityCreeper)
-			creeper = (EntityCreeper)event.getEntityLiving();
+		if (event.getEntityLiving() instanceof EntityCreeper)
+			creeper = (EntityCreeper) event.getEntityLiving();
 		else
 			return;
 		if (creeper != null && creeper.getCreeperState() == 1) {
-			int ignitedTime =  ObfuscationReflectionHelper.getPrivateValue(EntityCreeper.class,creeper,"field_70833_d");
+			int ignitedTime = ObfuscationReflectionHelper.getPrivateValue(EntityCreeper.class, creeper,
+					"field_70833_d");
 
 			int fuseTime = ObfuscationReflectionHelper.getPrivateValue(EntityCreeper.class, creeper, "field_82225_f");
-			if (ignitedTime >=fuseTime-1) {
+			if (ignitedTime >= fuseTime - 1) {
 				if (willExplodeToConfetti()) {
-					creeper.getEntityWorld().playSound(null, creeper.posX, creeper.posY, creeper.posZ,
-							SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 0.5F,
-							(1.0F + (creeper.getEntityWorld().rand.nextFloat() - creeper.getEntityWorld().rand.nextFloat()) * 0.2F)
-							* 0.7F);
-					if(ConfigHandler.GENERAL.DamagePlayers.get())
+					if (ConfigHandler.GENERAL.DamagePlayers.get())
 						damagePlayers(creeper);
+					Random rand = new Random();
+					if (rand.nextInt(100) < 5)
+						creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ, ModSounds.confetti, SoundCategory.HOSTILE,2F,1F, false);
+					creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ,SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1F,1F, false);		
 					spawnParticles(creeper);
-					creeper.remove(); //Removes the creeper from the world, as if it was dead
+					creeper.remove(); // Removes the creeper from the world, as if it was dead
+				} else {
+					explode = ObfuscationReflectionHelper.findMethod(EntityCreeper.class, "func_146077_cc");
+					try {
+						explode.invoke(creeper, (Object[]) null);
+					} catch (IllegalAccessException e) { // Should handle this better but oh well
+					} catch (IllegalArgumentException e) {
+					} catch (InvocationTargetException e) {
+					}
 				}
-				else {
-					explode =ObfuscationReflectionHelper.findMethod(EntityCreeper.class, "func_146077_cc");
-				try {
-					explode.invoke(creeper, (Object[])null);
-				} catch (IllegalAccessException e) { //Should handle this better but oh well
-				} catch (IllegalArgumentException e) {
-				} catch (InvocationTargetException e) {
-				}
-			}
 			}
 
 		}
@@ -64,7 +64,8 @@ public class ConfettiHandler {
 
 	private boolean willExplodeToConfetti() {
 		Random rand = new Random();
-		if (rand.nextInt(100) < ConfigHandler.GENERAL.ConfettiChance.get() || ConfigHandler.GENERAL.ConfettiChance.get()==0)
+		if (!(rand.nextInt(100) < ConfigHandler.GENERAL.ConfettiChance.get())
+				|| ConfigHandler.GENERAL.ConfettiChance.get() == 0)
 			return false;
 		else
 			return true;
@@ -79,18 +80,20 @@ public class ConfettiHandler {
 
 	@OnlyIn(Dist.CLIENT)
 	private void spawnParticles(EntityCreeper creeper) {
-		Minecraft.getInstance().particles.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX,
-				creeper.posY+0.5F, creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper,false)));
-		if(creeper.getPowered())
-			Minecraft.getInstance().particles.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX,
-					creeper.posY+2.5F, creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper,true)));
+		Minecraft.getInstance().particles
+				.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX, creeper.posY + 0.5F,
+						creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, false)));
+		if (creeper.getPowered())
+			Minecraft.getInstance().particles
+					.addEffect(new ParticleFirework.Starter(creeper.getEntityWorld(), creeper.posX, creeper.posY + 2.5F,
+							creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, true)));
 	}
 
-	private NBTTagCompound generateTag(EntityCreeper creeper,boolean powered) {
+	private NBTTagCompound generateTag(EntityCreeper creeper, boolean powered) {
 		NBTTagCompound fireworkTag = new NBTTagCompound();
 		NBTTagCompound fireworkItemTag = new NBTTagCompound();
 		NBTTagList nbttaglist = new NBTTagList();
-		List<Integer> list = Lists.<Integer> newArrayList();
+		List<Integer> list = Lists.<Integer>newArrayList();
 		Random rand = new Random();
 		list.add(0xE67E22);
 		list.add(0x00E0FF);
@@ -102,8 +105,8 @@ public class ConfettiHandler {
 			colours[i] = list.get(i).intValue();
 		fireworkTag.setIntArray("Colors", colours);
 		fireworkTag.setBoolean("Flicker", true);
-		fireworkTag.setByte("Type", (byte) (powered?3:4));
-		nbttaglist.add((INBTBase)fireworkTag);
+		fireworkTag.setByte("Type", (byte) (powered ? 3 : 4));
+		nbttaglist.add((INBTBase) fireworkTag);
 		fireworkItemTag.setTag("Explosions", nbttaglist);
 		return fireworkItemTag;
 	}
