@@ -1,7 +1,0 @@
-### Translated by RoCoKo
-#CONFIG
-creeperconfetti.config.title=Creeper Konfeti Konfigürasyonu
-creeperconfetti.general.confettichance=Konfeti Şansı
-creeperconfetti.general.confettichance.tooltip=Bir creeperın konfetiyle patlama şansı.
-creeperconfetti.general.damagesplayers=Oyuncu Hasarı
-creeperconfetti.general.damagesplayers.tooltip=Hala creeperların oyunculara zarar vermesini istiyorsanız onaylayın.
