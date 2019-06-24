@@ -18,7 +18,7 @@ public class ConfigHandler {
                     .translation("damageplayers.creeperconfetti.config")
                     .define("damagePlayers", false);
             ConfettiChance = builder
-                    .comment("The %chance that any given creeper will explode into confetti  [0..50|default:100]")
+                    .comment("The %chance that any given creeper will explode into confetti  [0..100|default:100]")
                     .translation("confettichance.creeperconfetti.config")
                     .defineInRange("confettiChance", 100, 0,100);
             builder.pop();
