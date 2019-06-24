@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 public class CreeperConfetti
 {
 	public CreeperConfetti() {
-		ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, com.sr2610.creeperconfetti.ConfigHandler.spec);
+	ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, com.sr2610.creeperconfetti.ConfigHandler.spec);
 		MinecraftForge.EVENT_BUS.register(new ConfettiHandler());
 	}
 
