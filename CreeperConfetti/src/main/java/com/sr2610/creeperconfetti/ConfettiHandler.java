@@ -47,7 +47,7 @@ public class ConfettiHandler {
 					if (rand.nextInt(100) < 5)
 						creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ, ModSounds.confetti, SoundCategory.HOSTILE,2F,1F, false);
 					creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ,SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1F,1F, false);		
-					if(!creeper.world.isRemote)
+					if(creeper.world.isRemote)
 					spawnParticles(creeper);
 					creeper.remove(); // Removes the creeper from the world, as if it was dead
 				} else {
