@@ -45,8 +45,8 @@ public class ConfettiHandler {
 						damagePlayers(creeper);
 					Random rand = new Random();
 					if (rand.nextInt(100) < 5)
-						creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ, ModSounds.confetti, SoundCategory.HOSTILE,2F,1F, false);
-					creeper.world.playSound(creeper.posX, creeper.posY, creeper.posZ,SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1F,1F, false);		
+						creeper.world.playSound(creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(), ModSounds.confetti, SoundCategory.HOSTILE,2F,1F, false);
+					creeper.world.playSound(creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(),SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1F,1F, false);
 					if(creeper.world.isRemote)
 					spawnParticles(creeper);
 					creeper.remove(); // Removes the creeper from the world, as if it was dead
@@ -74,9 +74,9 @@ public class ConfettiHandler {
 	}
 
 	private void damagePlayers(CreeperEntity creeper) {
-		float explosionStrength = creeper.getPowered() ? 2.0F : 1.0F;
+		float explosionStrength = creeper.func_225509_J__()? 2.0F : 1.0F;
         Explosion.Mode mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(creeper.getEntityWorld(), creeper) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
-        Explosion explosion = new Explosion(creeper.getEntityWorld(), creeper, creeper.posX, creeper.posY, creeper.posZ, 3 * explosionStrength, false, mode);
+        Explosion explosion = new Explosion(creeper.getEntityWorld(), creeper, creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(), 3 * explosionStrength, false, mode);
 
 		explosion.doExplosionA();
 	}
@@ -84,12 +84,12 @@ public class ConfettiHandler {
 	@OnlyIn(Dist.CLIENT)
 	private void spawnParticles(CreeperEntity creeper) {
 		Minecraft.getInstance().particles
-				.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.posX, creeper.posY + 0.5F,
-						creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, false)));
-		if (creeper.getPowered())
+				.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 0.5F,
+						creeper.getPosZ(), 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, false)));
+		if (creeper.func_225509_J__())
 			Minecraft.getInstance().particles
-					.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.posX, creeper.posY + 2.5F,
-							creeper.posZ, 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, true)));
+					.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 2.5F,
+							creeper.getPosZ(), 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, true)));
 	}
 
 	private CompoundNBT generateTag(CreeperEntity creeper, boolean powered) {
