@@ -1,5 +1,6 @@
 package com.sr2610.creeperconfetti;
 
+import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ConfettiHandler {
 
 			int fuseTime = ObfuscationReflectionHelper.getPrivateValue(CreeperEntity.class, creeper, "field_82225_f");
 			if (ignitedTime >= fuseTime - 1) {
-				if (willExplodeToConfetti()) {
+				if (willExplodeToConfetti(creeper)) {
 					if (ConfigHandler.GENERAL.DamagePlayers.get())
 						damagePlayers(creeper);
 					Random rand = new Random();
@@ -64,9 +65,11 @@ public class ConfettiHandler {
 		}
 	}
 
-	private boolean willExplodeToConfetti() {
-		Random rand = new Random();
-		if (!(rand.nextInt(100) < ConfigHandler.GENERAL.ConfettiChance.get())
+	private boolean willExplodeToConfetti(CreeperEntity creeper) {
+		Random rand = new Random(creeper.getUniqueID().getMostSignificantBits() & Long.MAX_VALUE);
+		int randomNum = rand.nextInt(100);
+		System.out.println(creeper.world.isRemote + " is " + randomNum + "is " + (creeper.getUniqueID().getMostSignificantBits() & Long.MAX_VALUE));
+		if (!(randomNum < ConfigHandler.GENERAL.ConfettiChance.get())
 				|| ConfigHandler.GENERAL.ConfettiChance.get() == 0)
 			return false;
 		else
