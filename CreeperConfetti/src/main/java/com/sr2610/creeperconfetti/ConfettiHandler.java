@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.FireworkParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -77,7 +78,7 @@ public class ConfettiHandler {
 	}
 
 	private void damagePlayers(CreeperEntity creeper) {
-		float explosionStrength = creeper.func_225509_J__()? 2.0F : 1.0F;
+		float explosionStrength = creeper.isCharged()? 2.0F : 1.0F;
         Explosion.Mode mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(creeper.getEntityWorld(), creeper) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
         Explosion explosion = new Explosion(creeper.getEntityWorld(), creeper, creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(), 3 * explosionStrength, false, mode);
 
@@ -87,11 +88,11 @@ public class ConfettiHandler {
 	@OnlyIn(Dist.CLIENT)
 	private void spawnParticles(CreeperEntity creeper) {
 		Minecraft.getInstance().particles
-				.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 0.5F,
+				.addEffect(new FireworkParticle.Starter((ClientWorld)creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 0.5F,
 						creeper.getPosZ(), 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, false)));
-		if (creeper.func_225509_J__())
+		if (creeper.isCharged())
 			Minecraft.getInstance().particles
-					.addEffect(new FireworkParticle.Starter(creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 2.5F,
+					.addEffect(new FireworkParticle.Starter((ClientWorld)creeper.getEntityWorld(), creeper.getPosX(), creeper.getPosY() + 2.5F,
 							creeper.getPosZ(), 0, 0, 0, Minecraft.getInstance().particles, generateTag(creeper, true)));
 	}
 
