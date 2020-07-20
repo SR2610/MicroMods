@@ -1,7 +1,6 @@
 {
     "pack": {
-        "description": "Jukebox Mod Resources",
-        "pack_format": 3,
-        "_comment": ""
+        "description": "Jukebox Resources",
+        "pack_format": 5
     }
 }

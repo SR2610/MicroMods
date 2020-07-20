@@ -1,106 +1,70 @@
 package com.sr2610.jukebox;
 
-import com.sr2610.jukebox.blocks.BlockJukebox;
-import com.sr2610.jukebox.blocks.TileEntityJukebox;
-import com.sr2610.jukebox.gui.GuiHandler;
-import com.sr2610.jukebox.network.PacketHandler;
-
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = JukeboxMod.MODID, version = JukeboxMod.VERSION, dependencies = "required-after:forge@[14.21.1.2387,)", updateJSON = "https://raw.githubusercontent.com/SR2610/MicroMods/master/Jukebox/update.json")
-public class JukeboxMod {
+import java.util.stream.Collectors;
 
-	@Instance
-	public static JukeboxMod instance = new JukeboxMod();
-	public static final String MODID = "jukebox";
+// The value here should match an entry in the META-INF/mods.toml file
+@Mod("jukebox")
+public class JukeboxMod
+{
+    // Directly reference a log4j logger.
+    private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String VERSION = "1.2";
+    public JukeboxMod() {
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
-	public static BlockJukebox jukebox = new BlockJukebox("jukebox");
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
-	@SidedProxy
-	public static CommonProxy proxy;
+    private void setup(final FMLCommonSetupEvent event)
+    {
+        // some preinit code
+        LOGGER.info("HELLO FROM PREINIT");
+        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    }
 
-	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
-		proxy.preInit(event);
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        // do something that can only be done on the client
+        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+    }
 
-	}
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		proxy.init(event);
-	}
 
-	@SubscribeEvent
-	public void textureStich(TextureStitchEvent.Pre event) {
 
-		event.getMap().registerSprite(new ResourceLocation("jukebox:gui/record"));
-	}
+    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    @SubscribeEvent
+    public void onServerStarting(FMLServerStartingEvent event) {
+        // do something when the server starts
+        LOGGER.info("HELLO from server starting");
+    }
 
-	@SideOnly(Side.CLIENT)
-	private static void registerBlock() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(jukebox), 0,
-				new ModelResourceLocation("jukebox:jukebox", "inventory"));
-	}
-
-	public static class ClientProxy extends CommonProxy {
-		@Override
-		public void init(FMLInitializationEvent e) {
-			super.init(e);
-
-		}
-
-		@Override
-		public void preInit(FMLPreInitializationEvent e) {
-			super.preInit(e);
-			registerBlock();
-			MinecraftForge.EVENT_BUS.register(new JukeboxMod());
-
-		}
-	}
-
-	public static class CommonProxy {
-		public void init(FMLInitializationEvent e) {
-			NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-		}
-
-		public void postInit(FMLPostInitializationEvent e) {
-
-		}
-
-		public void preInit(FMLPreInitializationEvent e) {
-			jukebox.setRegistryName(new ResourceLocation(MODID, "jukebox"));
-			ForgeRegistries.BLOCKS.register(jukebox);
-			ItemBlock jukeboxItem = new ItemBlock(jukebox);
-			jukeboxItem.setRegistryName(new ResourceLocation(MODID, "jukebox"));
-			ForgeRegistries.ITEMS.register(jukeboxItem);
-			GameRegistry.registerTileEntity(TileEntityJukebox.class, "jb_jukebox");
-			PacketHandler.registerMessages("jukebox");
-		}
-	}
-
-	public static class ServerProxy extends CommonProxy {
-
-	}
+    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
+    // Event bus for receiving Registry Events)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+        @SubscribeEvent
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+            // register a new block here
+            LOGGER.info("HELLO from Register Block");
+        }
+    }
 }
