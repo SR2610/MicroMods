@@ -1,0 +1,10 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/creeper-confetti",
+  "promos": {
+    "1.16.1-latest": "3.2",
+    "1.16.1-recommended": "3.2"
+  },
+  "1.16.1": {
+    "3.2": "-Updated Forge Version"
+  }
+}
