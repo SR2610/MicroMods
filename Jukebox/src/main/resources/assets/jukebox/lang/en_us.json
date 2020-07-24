@@ -1,0 +1,11 @@
+{
+  "container.jukebox": "Jukebox",
+  "block.jukebox.jukebox": "Jukebox",
+
+  "jukebox.pause": "■",
+  "jukebox.play": "►",
+  "jukebox.next": ">>",
+  "jukebox.previous": "<<",
+  "jukebox.nowplaying": "Now Playing: ",
+  "jukebox.paused": "Playback Suspended"
+}
