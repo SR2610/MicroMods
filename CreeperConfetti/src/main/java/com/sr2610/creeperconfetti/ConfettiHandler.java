@@ -78,11 +78,13 @@ public class ConfettiHandler {
 	}
 
 	private void damagePlayers(CreeperEntity creeper) {
-		float explosionStrength = creeper.isCharged()? 2.0F : 1.0F;
-        Explosion.Mode mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(creeper.getEntityWorld(), creeper) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
-        Explosion explosion = new Explosion(creeper.getEntityWorld(), creeper, creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(), 3 * explosionStrength, false, mode);
 
-		explosion.doExplosionA();
+		if (!creeper.world.isRemote) {
+			Explosion.Mode explosion$mode = Explosion.Mode.NONE;
+			float f = creeper.isCharged() ? 2.0F : 1.0F;
+			Explosion explosion = new Explosion(creeper.world, creeper, null, null, creeper.getPosX(), creeper.getPosY(), creeper.getPosZ(), 3 * f, false, explosion$mode);
+			explosion.doExplosionA();
+		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
