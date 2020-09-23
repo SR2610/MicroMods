@@ -1,5 +1,6 @@
 modLoader="javafml"
-loaderVersion="[32,)"
+loaderVersion="[34,)"
+license="Creative Commons Attribution-NonCommercial 3.0 Unported"
 issueTrackerURL="https://github.com/SR2610/MicroMods/issues"
 logoFile="creeperconfetti.png"
 [[mods]]
